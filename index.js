@@ -46,7 +46,7 @@ const oparation = (op) => {
 };
 const equal = () => {
     //se valida que no hayan simbolo en pantalla
-    //+, -,x, /, . raiz
+    //+, -,x, /, ., raiz
 };
 //funcion que valida si la cadena ya tiene un punto
 const valDags = () => {

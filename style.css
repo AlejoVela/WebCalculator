@@ -5,3 +5,7 @@ button {
 body {
     font-family: 'Source Code Pro', monospace;  
 }
+
+#pantalla {
+    overflow-wrap: break-word;
+}
