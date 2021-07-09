@@ -16,24 +16,50 @@ let $btnDel = document.getElementById("btnDel");
 let $btnX = document.getElementById("btnX");
 let $btnSQ = document.getElementById("btnSQ");
 let $btnM = document.getElementById("btnM");
-let $btnPi = document.getElementById("btnPIi");
+let $btnPi = document.getElementById("btnPi");
 let $btnPlus = document.getElementById("btnPlus");
 let $btnEq = document.getElementById("btnEq");
 let $pantalla = document.getElementById("pantalla");
 //variables globales
-let pi = 3.141592;
+let pi = "3.141592";
 let resultado = 0;
 let acumulator = 0;
 
 //funciones
 const getData = (data) => {
-    pantalla.innerHTML += data.innerHTML;
+    pantalla.innerHTML += data.innerHTML;    
+};
+const getPi = () => {
+    pantalla.innerHTML += pi;    
 };
 const cleanDisplay = () => {
     pantalla.innerHTML = "";
 };
+const deleteLastCharacter = () => {
+    pantalla.innerHTML = pantalla.innerHTML.slice(0, -1);
+}
+//se guardara el numero en el acumulador dependiendo de la operacion
+//despues se limbiará la pantalla y se mostrará el 
+//simbolo, se debe validar si previamente habia otro simbolo
 const oparation = (op) => {
-    
+
+};
+const equal = () => {
+    //se valida que no hayan simbolo en pantalla
+    //+, -,x, /, . raiz
+};
+//funcion que valida si la cadena ya tiene un punto
+const valDags = () => {
+    let str = pantalla.innerHTML;
+    let array = str.split("");
+    console.log(array);    
+    for (let i = 0; i < array.length; i++) {
+        if(array[i]==="."){
+            console.log("ya existe un punto en la cadena");
+            return false;
+        }
+    }
+    return true;
 };
 
 
@@ -70,10 +96,19 @@ $btn9.onclick = function () {
     getData($btn9);
 };
 $btnD.onclick = function () {
-    getData($btnD);
+    if (pantalla.innerHTML !== "" && valDags()==true) {
+        getData($btnD);    
+    }    
+};
+//por mejorar
+$btnPi.onclick = function () {
+    getPi();
 };
 $btnCE.onclick = function () {
     cleanDisplay();
+};
+$btnDel.onclick = function () {
+    deleteLastCharacter();
 };
 /*
 $btn.onclick = function () {
