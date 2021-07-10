@@ -32,8 +32,15 @@ const getData = (data) => {
 const getPi = () => {
     pantalla.innerHTML += pi;    
 };
-const cleanDisplay = () => {
-    pantalla.innerHTML = "";
+const cleanDisplay = (cleanAcumulator) => {
+    if (cleanAcumulator) {
+        pantalla.innerHTML = "";
+        acumulator = 0;
+        resultado = 0;
+        console.log("se limpio con CE");
+    } else {
+        pantalla.innerHTML = "";
+    }
 };
 const deleteLastCharacter = () => {
     pantalla.innerHTML = pantalla.innerHTML.slice(0, -1);
@@ -105,7 +112,7 @@ $btnPi.onclick = function () {
     getPi();
 };
 $btnCE.onclick = function () {
-    cleanDisplay();
+    cleanDisplay(true);
 };
 $btnDel.onclick = function () {
     deleteLastCharacter();
