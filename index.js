@@ -23,33 +23,57 @@ let $pantalla = document.getElementById("pantalla");
 //variables globales
 let pi = "3.141592";
 let resultado = 0;
-let acumulator = 0;
+let acumulator = [];
 
 //funciones
 const getData = (data) => {
-    pantalla.innerHTML += data.innerHTML;    
+    let str = $pantalla.innerHTML;
+    let array = str.split("");
+
+    if(array[array.length-1]==="+" || array[array.length-1]==="-" || array[array.length-1]==="/" || array[array.length-1]==="x"){
+        acumulator.push(array[array.length-1]);
+        cleanDisplay(false);
+        $pantalla.innerHTML += data.innerHTML;
+        console.log("Ingreso de simbolo al acumulador:\n"+acumulator);
+    } else {
+        $pantalla.innerHTML += data.innerHTML;    
+    }
+    
 };
 const getPi = () => {
-    pantalla.innerHTML += pi;    
+    $pantalla.innerHTML += pi;    
 };
 const cleanDisplay = (cleanAcumulator) => {
     if (cleanAcumulator) {
-        pantalla.innerHTML = "";
-        acumulator = 0;
+        $pantalla.innerHTML = "";
+        acumulator = [];
         resultado = 0;
         console.log("se limpio con CE");
     } else {
-        pantalla.innerHTML = "";
+        $pantalla.innerHTML = "";
     }
 };
 const deleteLastCharacter = () => {
-    pantalla.innerHTML = pantalla.innerHTML.slice(0, -1);
+    $pantalla.innerHTML = $pantalla.innerHTML.slice(0, -1);
 }
 //se guardara el numero en el acumulador dependiendo de la operacion
 //despues se limbiará la pantalla y se mostrará el 
 //simbolo, se debe validar si previamente habia otro simbolo
-const oparation = (op) => {
-
+const operation = (op) => {
+    if (valSym(op)) {
+        //si no hay simbolos al final de la cadena, entra a la funcion
+        //validamos si el ultimo caracter del string es un "x" o un "/" y la
+        //operacion entrante es un "-"
+        acumulator.push($pantalla.innerHTML);
+        cleanDisplay(false);
+        $pantalla.innerHTML = op;
+        console.log("Ingreso de numeros al acumulador:\n"+acumulator);
+    } else {
+        //si es falso, se debe cambiar el simbolo y eliminar del acumulador
+        $pantalla.innerHTML = $pantalla.innerHTML.slice(0, -1);
+        $pantalla.innerHTML += op;
+        console.log("Cambio de simbolo al acumulador:\n"+acumulator);
+    }
 };
 const equal = () => {
     //se valida que no hayan simbolo en pantalla
@@ -57,7 +81,7 @@ const equal = () => {
 };
 //funcion que valida si la cadena ya tiene un punto
 const valDags = () => {
-    let str = pantalla.innerHTML;
+    let str = $pantalla.innerHTML;
     let array = str.split("");
     console.log(array);    
     for (let i = 0; i < array.length; i++) {
@@ -67,6 +91,21 @@ const valDags = () => {
         }
     }
     return true;
+};
+//se valida si hay un simbolo previamente ingresado al final de la cadena
+const valSym = (op) => {
+    let str = $pantalla.innerHTML;
+    let array = str.split("");
+
+    if(array[array.length-1]==="+" || array[array.length-1]==="-" || array[array.length-1]==="/" || array[array.length-1]==="x"){
+        if ((array[array.length-1] === "x" || array[array.length-1] === "/") && op==="-") {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return true;
+    }
 };
 
 
@@ -107,16 +146,30 @@ $btnD.onclick = function () {
         getData($btnD);    
     }    
 };
-//por mejorar
-$btnPi.onclick = function () {
-    getPi();
-};
 $btnCE.onclick = function () {
     cleanDisplay(true);
 };
 $btnDel.onclick = function () {
     deleteLastCharacter();
 };
+//por mejorar
+$btnPi.onclick = function () {
+    getPi();
+};
+$btnPlus.onclick = function () {
+    operation($btnPlus.innerHTML);  
+};
+$btnM.onclick = function () {
+    operation($btnM.innerHTML);  
+};
+$btnX.onclick = function () {
+    operation($btnX.innerHTML);  
+};
+$btnDiv.onclick = function () {
+    operation($btnDiv.innerHTML);  
+};
+
+
 /*
 $btn.onclick = function () {
     getData($btn);
