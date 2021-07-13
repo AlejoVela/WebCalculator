@@ -36,7 +36,7 @@ const getData = (data) => {
         $pantalla.innerHTML += data.innerHTML;
         console.log("Ingreso de simbolo al acumulador:\n"+acumulator);
     } else {
-        $pantalla.innerHTML += data.innerHTML;    
+        $pantalla.innerHTML += data.innerHTML; 
     }
     
 };
@@ -54,7 +54,9 @@ const cleanDisplay = (cleanAcumulator) => {
     }
 };
 const deleteLastCharacter = () => {
-    $pantalla.innerHTML = $pantalla.innerHTML.slice(0, -1);
+    if (DisplaySim($pantalla.innerHTML)) {
+        $pantalla.innerHTML = $pantalla.innerHTML.slice(0, -1);
+    }     
 }
 //se guardara el numero en el acumulador dependiendo de la operacion
 //despues se limbiará la pantalla y se mostrará el 
@@ -78,6 +80,35 @@ const operation = (op) => {
 const equal = () => {
     //se valida que no hayan simbolo en pantalla
     //+, -,x, /, ., raiz
+    if (resultado===0) {
+        acumulator.push($pantalla.innerHTML);
+        if (DisplaySim($pantalla.innerHTML)) {
+            let op3r4tion = "";
+            for (let i = 0; i < acumulator.length; i++) {
+                //codigo operaciones
+                if(i > 0){
+                    if (DisplaySim(acumulator[i]) == false) {
+                        op3r4tion = acumulator[i];
+                        console.log("entro con el simbolo "+acumulator[i]);
+                    } else {
+                        if (op3r4tion === "+") {
+                            resultado += parseFloat(acumulator[i]);
+                        } else if (op3r4tion === "-") {
+                            resultado -= parseFloat(acumulator[i]);
+                        } else if (op3r4tion === "x") {
+                            resultado *= parseFloat(acumulator[i]);
+                        } else if (op3r4tion === "/") {
+                            if(parseFloat(acumulator[i])!==0)
+                            resultado /= parseFloat(acumulator[i]);
+                        }
+                    }
+                } else {
+                    resultado += parseFloat(acumulator[i]);
+                }
+            }
+            $pantalla.innerHTML = resultado;
+        }        
+    }
 };
 //funcion que valida si la cadena ya tiene un punto
 const valDags = () => {
@@ -107,7 +138,15 @@ const valSym = (op) => {
         return true;
     }
 };
-
+const DisplaySim = (obj) => {
+    if (obj!=="+" && obj!=="-" && obj!=="/" && obj!=="x") {
+        //no hay simbolos en pantalla
+        return true;
+    } else {
+        //hay simbolos en pantalla
+        return false;
+    }
+}
 
 
 //eventos
@@ -168,20 +207,11 @@ $btnX.onclick = function () {
 $btnDiv.onclick = function () {
     operation($btnDiv.innerHTML);  
 };
-
+$btnEq.onclick = function () {
+    equal(); 
+};
 
 /*
 $btn.onclick = function () {
     getData($btn);
 };*/
-
-
-
-
-
-
-
-
-
-
-
