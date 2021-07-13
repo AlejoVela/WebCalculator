@@ -34,14 +34,22 @@ const getData = (data) => {
         acumulator.push(array[array.length-1]);
         cleanDisplay(false);
         $pantalla.innerHTML += data.innerHTML;
-        console.log("Ingreso de simbolo al acumulador:\n"+acumulator);
+        console.log("Ingreso de simbolo al acumulador:\n" + acumulator);
     } else {
         $pantalla.innerHTML += data.innerHTML; 
     }
     
 };
 const getPi = () => {
-    $pantalla.innerHTML += pi;    
+    if (DisplaySim($pantalla.innerHTML)) {
+        cleanDisplay(false);
+        $pantalla.innerHTML += pi;
+    } else {
+        acumulator.push($pantalla.innerHTML);
+        cleanDisplay(false);
+        $pantalla.innerHTML += pi;
+    }
+
 };
 const cleanDisplay = (cleanAcumulator) => {
     if (cleanAcumulator) {
@@ -56,11 +64,11 @@ const cleanDisplay = (cleanAcumulator) => {
 const deleteLastCharacter = () => {
     if (DisplaySim($pantalla.innerHTML)) {
         $pantalla.innerHTML = $pantalla.innerHTML.slice(0, -1);
-    }     
+    }
 }
-//se guardara el numero en el acumulador dependiendo de la operacion
-//despues se limbiará la pantalla y se mostrará el 
-//simbolo, se debe validar si previamente habia otro simbolo
+
+//se debe arreglar que impide ingresar varias veces un mismo simbolo
+//y el caso en el que se ingrese un "x" y seguido un "-"
 const operation = (op) => {
     if (valSym(op)) {
         //si no hay simbolos al final de la cadena, entra a la funcion
@@ -107,6 +115,8 @@ const equal = () => {
                 }
             }
             $pantalla.innerHTML = resultado;
+            resultado = 0;
+            acumulator = [];
         }        
     }
 };
